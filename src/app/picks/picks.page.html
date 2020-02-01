@@ -1,0 +1,11 @@
+<ion-content class="ion-padding">
+  <div *ngIf="data">
+    <ion-list style="margin-top: 100px;">
+      <ion-item *ngFor="let item of data" (click)="selected(item)">
+        <ion-label>
+          <span class="date">{{item.gomdon_ctime*1000 | date: 'HH:mm dd/MM/y'}}</span> <span class="right"><b>{{item.models_need_pick.length}} PL</b></span> 
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

@@ -9,13 +9,51 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { environment } from '../environments/environment';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { DetailPickPage } from './picks/detail-pick/detail-pick.page';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { ApiModule, Configuration, ConfigurationParameters } from 'src/openapi';
+
+export function apiConfigFactory(): Configuration {
+  // tslint:disable-next-line: prefer-const
+  // AuthService.getToken().then(token => {
+  //   console.log(token);
+  // });
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+    basePath: 'https://us-central1-gomdon-74d1a.cloudfunctions.net/api',
+  };
+  return new Configuration(params);
+}
+
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  declarations: [AppComponent, DetailPickPage],
+  entryComponents: [
+    DetailPickPage
+  ],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.config),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    ApiModule.forRoot(apiConfigFactory),
+  ],
   providers: [
     StatusBar,
     SplashScreen,
+    GooglePlus,
+    AngularFireAuthGuard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

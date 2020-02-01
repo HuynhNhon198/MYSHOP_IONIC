@@ -1,5 +1,7 @@
 {
   "name": "gomdon",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

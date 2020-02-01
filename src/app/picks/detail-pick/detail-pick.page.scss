@@ -1,0 +1,40 @@
+.rowItem {
+    margin: 8px 5px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0px rgba(10, 14, 29, 0.04), 0px 8px 64px 0px rgba(10, 14, 29, 0.08)
+}
+
+div.checkbox {
+    bottom: 2px;
+    position: absolute;
+    right: 6px;
+}
+
+div.amount {
+    text-align: right;
+    // position: absolute;
+    // bottom: 2px;
+    // right: 2px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Barlow', sans-serif;;
+}
+
+.select {
+    // position: absolute;
+    // width: 95%;
+    // bottom: 6px;
+    // right: 5px;
+    border: #ddd solid 1px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+div.img {
+    border: #eee solid 1px;
+    border-radius: 4px
+}
+
+a,b{
+    font-family: 'Quicksand', sans-serif;
+}

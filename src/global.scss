@@ -24,3 +24,18 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+span {
+    font-family:'Barlow', sans-serif !important;
+}
+:root {
+    --ion-safe-area-top: 30px;
+}
+
+span.spacer {
+    flex: 1 1 auto !important;
+}
+
+.right {
+    float: right;
+}
