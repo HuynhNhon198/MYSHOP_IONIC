@@ -43,7 +43,7 @@ export class FirebaseService {
   }
 
   getOrders() {
-    this.orders = this.afs.collection('sells', ref => ref.where('gomdon_status', '<=', 4));
+    this.orders = this.afs.collection('sells', ref => ref.where('gomdon_status', '==', 1));
     return this.orders.valueChanges();
   }
 

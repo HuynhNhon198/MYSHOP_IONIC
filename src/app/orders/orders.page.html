@@ -1,9 +1,32 @@
 <ion-header no-border>
   <ion-toolbar>
-    <ion-searchbar #mySearchbar (keyup)="searchItem($event)"></ion-searchbar>
+    <ion-searchbar #mySearchbar placeholder="TÌM THEO MÃ VẬN ĐƠN" (keyup)="searchItem($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-content padding>
+    <!-- <ion-fab bottom right>
+        <button ion-fab color="primary">
+          <ion-icon name="help"></ion-icon>
+        </button>
+      </ion-fab> -->
+    <ion-list *ngIf="data">
+      <ion-item lines='none' *ngFor="let item of data" id="{{item.shipping_traceno}}" [ngStyle]="{'background-color': item.check? 'rgba(0, 255, 75, 0.08)' : 'rgba(255, 0, 0, 0.04)',
+                      'border': item.check? 'rgba(0, 255, 76, 0.62) solid 1px' : 'rgba(255, 18, 18, 0.31) solid 1px'}">
+        <!-- {{item.check}} -->
+        <ion-label>
+          <h2><b>{{item.shipping_traceno}}</b></h2>
+          <p>{{item.buyer_user.user_name}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <!-- <ion-list *ngIf="showList">
+      <ion-item *ngFor="let item of items" id="{{item.traceno}}" (click)="selectItem($event)" [ngStyle]="{'background-color': item.check? 'rgba(0, 255, 75, 0.08)' : 'rgba(255, 0, 0, 0.04)',
+                      'border': item.check? 'rgba(0, 255, 76, 0.62) solid 1px' : 'rgba(255, 18, 18, 0.31) solid 1px'}">
+        <b>{{item.traceno}}</b> <br>
+        {{item.nickname}} - {{ item.status }}
+      </ion-item>
+    </ion-list> -->
+  </ion-content>
 </ion-content>

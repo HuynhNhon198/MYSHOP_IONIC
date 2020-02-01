@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { Sell } from 'src/openapi';
 import { Subscription } from 'rxjs';
-import { IonSearchbar } from '@ionic/angular';
+import { IonSearchbar, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-orders',
@@ -12,16 +12,25 @@ import { IonSearchbar } from '@ionic/angular';
 export class OrdersPage implements OnInit, OnDestroy {
   @ViewChild('mySearchbar', { static: true }) searchbar: IonSearchbar;
   data: Sell[];
+  temp: Sell[];
   sub: Subscription;
+  loading;
   constructor(
+    private loadingCTRL: LoadingController,
     private fbSV: FirebaseService
   ) { }
 
-  ngOnInit() {
-    setTimeout(() => this.searchbar.setFocus(), 500);
-    this.sub = this.fbSV.getOrders().subscribe(res => {
+  async ngOnInit() {
+    this.loading = await this.loadingCTRL.create({
+      message: 'Loading...',
+      translucent: true
+    });
+    this.loading.present();
+    this.sub = this.fbSV.getOrders().subscribe(async res => {
       this.data = res;
-      console.log(this.data);
+      this.temp = res;
+      await this.loading.dismiss();
+      setTimeout(() => this.searchbar.setFocus(), 500);
     });
   }
 
@@ -30,6 +39,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
   searchItem(e) {
-    console.log(e.target.value);
+    const text = e.target.value;
+    this.data = text === '' ? this.temp : [...this.temp.filter(x => x.shipping_traceno.toLowerCase().includes(e.target.value))];
   }
 }
