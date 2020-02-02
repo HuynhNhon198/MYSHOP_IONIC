@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IPick } from '../models/pick.model';
 import { HelperService } from 'src/app/services/helper.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-detail-pick',
@@ -12,12 +12,17 @@ export class DetailPickPage implements OnInit {
   data: IPick;
   constructor(
     private helper: HelperService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
-    console.log(this.data);
   }
+
+  async back() {
+      await this.modalController.dismiss();
+  }
+
   changeStatusPick(index) {
     const item = this.data.models_need_pick[index];
     const checked = !item.status;
@@ -32,7 +37,7 @@ export class DetailPickPage implements OnInit {
       inputs: [
         {
           name: 'picked',
-          value: pickedAmount.toString(),
+          value: pickedAmount || '',
           type: 'number'
         }
       ],
@@ -41,7 +46,6 @@ export class DetailPickPage implements OnInit {
           text: 'OK',
           role: 'ok',
           handler: (data) => {
-
             if (Number(data.picked) >= 0 && Number(data.picked) < item.amount) {
               this.data.models_need_pick[ind].pickedAmount = Number(data.picked);
             }
@@ -52,7 +56,11 @@ export class DetailPickPage implements OnInit {
         }]
     });
 
-    await alert.present();
+    await alert.present().then(() => {
+      const firstInput: any = document.querySelector('ion-alert input');
+      firstInput.focus();
+      return;
+    });
 
   }
 

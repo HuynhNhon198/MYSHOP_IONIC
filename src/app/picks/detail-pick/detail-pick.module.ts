@@ -6,8 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { DetailPickPageRoutingModule } from './detail-pick-routing.module';
 
-import { DetailPickPage } from './detail-pick.page';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +13,5 @@ import { DetailPickPage } from './detail-pick.page';
     IonicModule,
     DetailPickPageRoutingModule
   ],
-  declarations: [DetailPickPage]
 })
 export class DetailPickPageModule {}

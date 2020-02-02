@@ -12,8 +12,7 @@
         </button>
       </ion-fab> -->
     <ion-list *ngIf="data">
-      <ion-item lines='none' *ngFor="let item of data" id="{{item.shipping_traceno}}" [ngStyle]="{'background-color': item.check? 'rgba(0, 255, 75, 0.08)' : 'rgba(255, 0, 0, 0.04)',
-                      'border': item.check? 'rgba(0, 255, 76, 0.62) solid 1px' : 'rgba(255, 18, 18, 0.31) solid 1px'}">
+      <ion-item lines='none' *ngFor="let item of data" (click)="selectItem(item)" id="{{item.shipping_traceno}}" [ngClass]="{'check-full': item.picked }">
         <!-- {{item.check}} -->
         <ion-label>
           <h2><b>{{item.shipping_traceno}}</b></h2>

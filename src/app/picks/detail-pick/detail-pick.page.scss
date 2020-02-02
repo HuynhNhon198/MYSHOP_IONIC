@@ -5,19 +5,17 @@
 }
 
 div.checkbox {
-    bottom: 2px;
-    position: absolute;
-    right: 6px;
+    // bottom: 2px;
+    // position: absolute;
+    // right: 6px;
+    text-align: right;
 }
 
 div.amount {
-    text-align: right;
-    // position: absolute;
-    // bottom: 2px;
-    // right: 2px;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Barlow', sans-serif;;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 25px;
+    font-weight: 500;
 }
 
 .select {
@@ -35,6 +33,7 @@ div.img {
     border-radius: 4px
 }
 
-a,b{
-    font-family: 'Quicksand', sans-serif;
+a {
+    font-weight: 500;
+    // font-family: 'Quicksand', sans-serif;
 }

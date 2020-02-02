@@ -42,6 +42,7 @@ ion-fab[bottom] {
 ion-label {
     margin: 5px 0 3px;
 }
+
 h2 {
     font-family: 'Barlow', sans-serif;
     font-size: 20px;
@@ -50,4 +51,14 @@ h2 {
 
 p {
     font-family: 'Quicksand', sans-serif;
+}
+
+ion-item {
+    --background: rgba(248, 174, 174, 0.36);
+    border: rgb(191, 0, 0) dashed 1px
+}
+
+ion-item.check-full {
+    --background: rgba(151, 255, 151, 0.319);
+    border: rgb(0, 162, 5) solid 1px
 }

@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>{{data.models_need_pick.length}} Phân loại</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="filterData()">
@@ -20,7 +25,7 @@
       <ion-col size="7">
         <ion-row>
           <a style="text-decoration: unset"
-            [ngStyle]="{'font-size': i.product_name.length>23? '12px' : '14px'}"><b>{{i.product_name}}</b> </a>
+            [ngStyle]="{'font-size': i.product_name.length>23? '14px' : '16px'}">{{i.product_name}}</a>
         </ion-row>
         <ion-row class="select" [ngStyle]="{'background-color': i.status ? 'rgba(116, 247, 116, 0.1)' : ''}">
           <ion-col style="border-right: #ddd solid 1px; font-size: 17px">
@@ -28,15 +33,15 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="9">
-            <div (click)="editPicked(i.pickedAmount, ind)" class="amount"><mark
-                *ngIf='i.pickedAmount > 0 && i.pickedAmount < i.amount'>{{i.pickedAmount}}/</mark>{{i.amount}}
-            </div>
-          </ion-col>
-          <ion-col size="3">
+          <ion-col>
             <div class="checkbox">
               <ion-checkbox id="{{i.item_id}}" [(ngModel)]="i.status" (click)="changeStatusPick( ind)">
               </ion-checkbox>
+              <ion-label>
+                <div (click)="editPicked(i.pickedAmount, ind)" class="amount"><mark
+                    *ngIf='i.pickedAmount > 0 && i.pickedAmount < i.amount'>{{i.pickedAmount}}/</mark>{{i.amount}}
+                </div>
+              </ion-label>
             </div>
           </ion-col>
         </ion-row>

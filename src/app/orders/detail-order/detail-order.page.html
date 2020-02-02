@@ -1,9 +1,62 @@
-<ion-header>
+<ion-header >
   <ion-toolbar>
-    <ion-title>detail-order</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{data.shipping_traceno}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="takeNote()">
+        <ion-icon slot="icon-only" name="create"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <span slot="end" (click)="changeStatus(data.gomdon_status)" class="status{{data.gomdon_status}}">
+      {{data.gomdon_status | statusName: 'Sell' | uppercase}}
+    </span>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-content>        
+      <span class="price">{{data.buyer_paid_amount|number}} ₫</span> <span class="info">{{data.buyer_user.user_name}} &nbsp; <span (click)="copyPhone()">&#9742; +{{data.buyer_address_phone}}</span></span>
+      <br>
+      <b *ngIf='data.gomdon_note && data.gomdon_note!==""' style="font-size: 18px;
+      color: rgb(7, 16, 123)">'{{data.gomdon_note}}'</b>
+      <div *ngIf="own_logs_note.length>0">
+        <li *ngFor="let i of own_logs_note" title="{{i.name}}">
+          '{{i.content}}' - {{i.id | date: 'HH:mm dd/MM/y'}} - {{i.name}}
+        </li>
+      </div>
 
+    </ion-card-content>
+  </ion-card>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td class="order-td">{{items.length}} PL</td>
+        <td class="order-td"> {{helper.sum(items, 'amount')}}</td>
+        <td class="order-td">
+          <ion-checkbox [(ngModel)]="checkAll" (ngModelChange)="bulkChange(checkAll)"></ion-checkbox>
+        </td>
+      </tr>
+      <tr *ngFor="let i of items; index as ind">
+        <td class="imageProduct order-td" width="80px">
+          <img src="https://cf.shopee.vn/file/{{i.product.images[0]}}_tn" width="100%" alt="">
+        </td>
+        <td class="order-td" [ngClass]="{'boldName':i.bold==true}"> {{i.product.name}}</td>
+        <td class="order-td model">{{i.item_model.name}}</td>
+        <td class="order-td" id="amount" (click)="changePicked(i.picked,ind)">
+          <mark *ngIf='i.picked > 0 && i.picked < i.amount'>{{i.picked}}/</mark>
+          <span [ngClass]="{'highlight':i.amount > 1 }"><b>{{i.amount}}</b></span></td>
+        <td class="order-td">
+          <ion-checkbox [(ngModel)]="i.gomdon_status" (click)="change = true" (ionChange)='changeStatusItem(ind)'>
+          </ion-checkbox>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </ion-content>

@@ -9,16 +9,19 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.prod';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { DetailPickPage } from './picks/detail-pick/detail-pick.page';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiModule, Configuration, ConfigurationParameters } from 'src/openapi';
+import { DetailOrderPage } from './orders/detail-order/detail-order.page';
+import { StatusPipe } from './pipes/app.status';
 
 export function apiConfigFactory(): Configuration {
   // tslint:disable-next-line: prefer-const
@@ -32,10 +35,11 @@ export function apiConfigFactory(): Configuration {
   return new Configuration(params);
 }
 
-@NgModule({
-  declarations: [AppComponent, DetailPickPage],
+@NgModule({ 
+  declarations: [AppComponent, DetailPickPage, DetailOrderPage, StatusPipe],
   entryComponents: [
-    DetailPickPage
+    DetailPickPage,
+    DetailOrderPage,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +54,7 @@ export function apiConfigFactory(): Configuration {
     ApiModule.forRoot(apiConfigFactory),
   ],
   providers: [
+    Clipboard,
     StatusBar,
     SplashScreen,
     GooglePlus,

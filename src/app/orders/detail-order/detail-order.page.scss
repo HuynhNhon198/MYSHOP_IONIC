@@ -1,0 +1,72 @@
+.toolbar-title-md {
+    text-align: left !important;
+}
+
+.col {
+    border: #d0d0d0 solid 1px;
+}
+
+.boldName {
+    font-weight: bold;
+    color: #840000 !important
+}
+
+ion-icon {
+    font-size: 20px
+}
+
+.status1,
+.status4 {
+    margin-right: 10px;
+    color: #fff;
+    padding: 3px 11px 5px;
+    border-radius: 25px;
+    font-weight: 500;
+}
+
+.price {
+    font-size: 19px;
+    color: green;
+    font-weight: bold;
+}
+
+.status4 {
+    background: rgb(63, 125, 235)
+}
+
+.status1 {
+    background: rgb(245, 61, 61);
+}
+
+.highlight {
+    background: #1189e8;
+    color: #fff;
+    padding: 3px
+}
+
+td#amount {
+    background: #fffce6;
+    text-align: center;
+    font-size: 15px
+}
+
+td.order-td {
+    border: rgba(72, 138, 255, 0.4) solid 1px !important;
+    padding: 6px !important;
+}
+
+table {
+    margin: 3px;
+}
+
+td.order-td.model {
+    font-weight: 500;
+}
+
+span.info {
+    float: right;
+    display: block;
+    margin-top: 2px;
+    font-weight: 500;
+    color: #000;
+}

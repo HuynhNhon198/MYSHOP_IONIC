@@ -47,12 +47,16 @@ export class FirebaseService {
     return this.orders.valueChanges();
   }
 
+  async updateSell(id: string, data: any) {
+    await this.afs.collection('sells').doc(id).update(data);
+  }
+
   async getUID() {
     let uid = '';
     await this.user.subscribe(res => {
       uid = res.uid;
     });
-    console.log(uid);
+    
     return uid;
   }
 
