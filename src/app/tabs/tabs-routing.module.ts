@@ -50,12 +50,12 @@ const routes: Routes = [
         data: { authGuardPipe: redirectUnauthorizedToLogin }
       },
       {
-        path: 'picks/detail',
+        path: 'chats',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../picks/detail-pick/detail-pick.module').then(m => m.DetailPickPageModule)
+              import('../chats/chats.module').then(m => m.ChatsPageModule)
           }
         ]
       },

@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{data.shipping_traceno}}</ion-title>
+    <ion-title (click)="copyText(data.shipping_traceno)">{{data.shipping_traceno}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="takeNote()">
         <ion-icon slot="icon-only" name="create"></ion-icon>
@@ -20,7 +20,7 @@
 <ion-content>
   <ion-card>
     <ion-card-content>        
-      <span class="price">{{data.buyer_paid_amount|number}} ₫</span> <span class="info">{{data.buyer_user.user_name}} &nbsp; <span (click)="copyPhone()">&#9742; +{{data.buyer_address_phone}}</span></span>
+      <span class="price">{{data.buyer_paid_amount|number}} ₫</span> <span class="info">{{data.buyer_user.user_name}} &nbsp; <span (click)="copyText('+'+data.buyer_address_phone)">&#9742; +{{data.buyer_address_phone}}</span></span>
       <br>
       <b *ngIf='data.gomdon_note && data.gomdon_note!==""' style="font-size: 18px;
       color: rgb(7, 16, 123)">'{{data.gomdon_note}}'</b>
@@ -45,7 +45,7 @@
       </tr>
       <tr *ngFor="let i of items; index as ind">
         <td class="imageProduct order-td" width="80px">
-          <img src="https://cf.shopee.vn/file/{{i.product.images[0]}}_tn" width="100%" alt="">
+          <img src="https://cf.shopee.vn/file/{{i.product.images[0]}}_tn" (click)="openPhotos(i.product.images, i.product.name, i.item_model.name)" width="100%" alt="">
         </td>
         <td class="order-td" [ngClass]="{'boldName':i.bold==true}"> {{i.product.name}}</td>
         <td class="order-td model">{{i.item_model.name}}</td>
@@ -53,7 +53,7 @@
           <mark *ngIf='i.picked > 0 && i.picked < i.amount'>{{i.picked}}/</mark>
           <span [ngClass]="{'highlight':i.amount > 1 }"><b>{{i.amount}}</b></span></td>
         <td class="order-td">
-          <ion-checkbox [(ngModel)]="i.gomdon_status" (click)="change = true" (ionChange)='changeStatusItem(ind)'>
+          <ion-checkbox [(ngModel)]="i.gomdon_status" (click)="change = true; checkCheckAll = true" (ionChange)='changeStatusItem(ind)'>
           </ion-checkbox>
         </td>
       </tr>

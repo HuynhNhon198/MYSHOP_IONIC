@@ -104,6 +104,17 @@ export class HelperService {
     }, 0);
   }
 
+  uniqueArrObj(arr: any[], prop: string) {
+    const unique = [];
+    for (const item of arr) {
+      const ind = unique.findIndex(x => x[prop] === item[prop]);
+      if (ind === -1) {
+        unique.push(item);
+      }
+    }
+    return unique;
+  }
+
   saveLogOrder(logs: GomdonLogs[], content: string, type: number): Promise<GomdonLogs[]> {
     return new Promise(r => {
       this.fbSV.user.subscribe(user => {

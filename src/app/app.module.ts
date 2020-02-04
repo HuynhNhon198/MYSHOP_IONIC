@@ -5,10 +5,13 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
@@ -22,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiModule, Configuration, ConfigurationParameters } from 'src/openapi';
 import { DetailOrderPage } from './orders/detail-order/detail-order.page';
 import { StatusPipe } from './pipes/app.status';
+import { PhotosViewerPage } from './photos-viewer/photos-viewer.page';
 
 export function apiConfigFactory(): Configuration {
   // tslint:disable-next-line: prefer-const
@@ -36,10 +40,11 @@ export function apiConfigFactory(): Configuration {
 }
 
 @NgModule({ 
-  declarations: [AppComponent, DetailPickPage, DetailOrderPage, StatusPipe],
+  declarations: [AppComponent, DetailPickPage, DetailOrderPage, PhotosViewerPage, StatusPipe],
   entryComponents: [
     DetailPickPage,
     DetailOrderPage,
+    PhotosViewerPage
   ],
   imports: [
     BrowserModule,
@@ -54,11 +59,14 @@ export function apiConfigFactory(): Configuration {
     ApiModule.forRoot(apiConfigFactory),
   ],
   providers: [
+    Keyboard,
     Clipboard,
+    Network,
     StatusBar,
     SplashScreen,
     GooglePlus,
     AngularFireAuthGuard,
+    PhotoViewer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

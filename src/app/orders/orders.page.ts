@@ -40,9 +40,9 @@ export class OrdersPage implements OnInit, OnDestroy {
       });
       this.data = res;
       this.temp = res;
-      await this.loading.dismiss();
       if (this.focus) {
         setTimeout(() => this.searchbar.setFocus(), 500);
+        await this.loading.dismiss();
         this.focus = false;
       }
     });

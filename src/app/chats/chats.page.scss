@@ -1,0 +1,39 @@
+ion-item p {
+    background: #eee;
+    width: fit-content;
+    white-space: pre-wrap;
+    padding: 4px 8px 6px;
+    color: black;
+    font-size: 17px !important;
+    /* font-family: roboto, sans-serif; */
+    font-weight: 100;
+    border-radius: 0 20px 20px;
+}
+
+h6.author {
+    font-weight: 500;
+    span.date {
+        font-size: 11px;
+        color: #979797
+    }
+}
+
+ion-icon.send {
+    font-size: 25px;
+    margin-top: 8px;
+}
+ion-input.chat {
+    width: 90%;
+    padding:0 5px !important;
+    border: unset;
+    border-radius: 25px;
+    background: #f6f6f6;
+}
+p.own, span.date.own {
+    float: right
+}
+p.own {
+    border-radius: 20px 0 20px 20px !important;
+    background: #0286ef !important;
+    color: #fff !important;
+}

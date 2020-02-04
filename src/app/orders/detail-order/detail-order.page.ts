@@ -4,6 +4,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoadingController, ModalController, AlertController, ToastController } from '@ionic/angular';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { PhotosViewerPage } from 'src/app/photos-viewer/photos-viewer.page';
 
 interface IItem extends OrderItem {
   gomdon_status?: boolean;
@@ -21,6 +22,7 @@ export class DetailOrderPage implements OnInit {
   checkAll = false;
   loading;
   change = false;
+  checkCheckAll = true;
   // tslint:disable-next-line: variable-name
   own_logs_note: GomdonLogs[] = [];
   constructor(
@@ -39,7 +41,11 @@ export class DetailOrderPage implements OnInit {
     this.own_logs_note = this.data.gomdon_logs.filter(x => x.type === 1);
   }
 
-  bulkChange(checked: boolean) {
+  async bulkChange(checked: boolean) {
+    if (checked) {
+      this.checkCheckAll = false;
+      await this.updateItemFromCheckBox();
+    }
     this.change = checked ? this.change : true;
     this.items.forEach(item => {
       item.gomdon_status = checked;
@@ -83,13 +89,14 @@ export class DetailOrderPage implements OnInit {
   }
   async showLoading() {
     this.loading = await this.loadingController.create({
-      message: 'Đang Lưu...'
+      message: 'Đang Lưu...',
+      backdropDismiss: true
     });
     await this.loading.present();
   }
   async back() {
     if (this.change) {
-      await this.loading.present();
+      await this.showLoading();
       await this.fbSV.updateSell(this.data.order_sn, {
         order_items: this.items,
       });
@@ -101,7 +108,7 @@ export class DetailOrderPage implements OnInit {
 
   }
 
-  async changeStatus(currentStatus) {
+  async changeStatus(currentStatus: number) {
     let newStatus = 0;
     switch (currentStatus) {
       case 1:
@@ -165,36 +172,55 @@ export class DetailOrderPage implements OnInit {
       return;
     });
   }
-  async copyPhone() {
-    const phone = ('+' + this.data.buyer_address_phone).replace('+84', '0');
-    await this.clipboard.copy(phone).then(async () => {
+  async copyText(text: string) {
+    text = text.replace('+84', '0');
+    await this.clipboard.copy(text).then(async () => {
       const toast = await this.toastController.create({
-        message: 'Đã Copy',
-        duration: 2000
+        message: `Đã Copy: ${text}`,
+        duration: 2000, 
       });
       toast.present();
-    })
+    });
   }
   async changeStatusItem(index: number) {
+    this.change = true;
     const item = this.items[index];
     this.items[index].picked = item.gomdon_status ? item.amount : 0;
     const checkedLength = this.items.filter(x => x.gomdon_status).length;
     if (checkedLength === this.items.length) {
       this.checkAll = true;
-      const newLogs: GomdonLogs[] = await this.helper.saveLogOrder(this.data.gomdon_logs, '4', 0);
-      await this.showLoading();
-      await this.fbSV.updateSell(this.data.order_sn, {
-        order_items: this.items,
-        gomdon_logs: newLogs,
-        gomdon_status: 4
-      });
-      this.data.gomdon_status = 4;
-      this.data.gomdon_logs = newLogs;
-      this.change = false;
-      await this.loading.dismiss();
+      if (this.checkCheckAll) {
+        await this.updateItemFromCheckBox();
+      }
     } else {
       this.checkAll = false;
     }
   }
 
+  async updateItemFromCheckBox() {
+    const newLogs: GomdonLogs[] = await this.helper.saveLogOrder(this.data.gomdon_logs, '4', 0);
+    await this.showLoading();
+    await this.fbSV.updateSell(this.data.order_sn, {
+      order_items: this.items,
+      gomdon_logs: newLogs,
+      gomdon_status: 4
+    });
+    this.data.gomdon_status = 4;
+    this.data.gomdon_logs = newLogs;
+    this.change = false;
+    await this.loading.dismiss();
+  }
+
+  async openPhotos(photos = [], title, name) {
+    photos = photos.map(x => `https://cf.shopee.vn/file/${x}_tn`);
+    const modal = await this.modalController.create({
+      component: PhotosViewerPage,
+      componentProps: {
+        photos,
+        title,
+        name
+      }
+    });
+    await modal.present();
+  }
 }

@@ -17,5 +17,6 @@ export interface IModelsPick {
     sku: string;
     sku_product: string;
     pickedAmount: number;
-    status: boolean;    
+    status: boolean;
+    images: string[];
 }

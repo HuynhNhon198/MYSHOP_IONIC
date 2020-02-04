@@ -19,7 +19,7 @@
     <ion-row class="rowItem" *ngFor="let i of data.models_need_pick; index as ind">
       <ion-col size="5">
         <div class="img">
-          <img src="https://cf.shopee.vn/file/{{i.image}}_tn" style="width: 100%" alt="">
+          <img src="https://cf.shopee.vn/file/{{i.image}}_tn" (click)="openPhotos(i.images, i.product_name, i.name)" style="width: 100%" alt="">
         </div>
       </ion-col>
       <ion-col size="7">

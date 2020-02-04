@@ -17,6 +17,14 @@ const routes: Routes = [
   {
     path: 'orders',
     loadChildren: () => import('./orders/orders.module').then( m => m.OrdersPageModule)
+  },
+  {
+    path: 'photos-viewer',
+    loadChildren: () => import('./photos-viewer/photos-viewer.module').then( m => m.PhotosViewerPageModule)
+  },
+  {
+    path: 'chats',
+    loadChildren: () => import('./chats/chats.module').then( m => m.ChatsPageModule)
   }
 ];
 @NgModule({

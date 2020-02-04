@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IPick } from '../models/pick.model';
 import { HelperService } from 'src/app/services/helper.service';
 import { AlertController, ModalController } from '@ionic/angular';
+import { PhotosViewerPage } from 'src/app/photos-viewer/photos-viewer.page';
 
 @Component({
   selector: 'app-detail-pick',
@@ -29,6 +30,18 @@ export class DetailPickPage implements OnInit {
 
     this.data.models_need_pick[index].pickedAmount = checked ? item.amount : 0;
 
+  }
+  async openPhotos(photos = [], title, name) {
+    photos = photos.map(x => `https://cf.shopee.vn/file/${x}_tn`);
+    const modal = await this.modalController.create({
+      component: PhotosViewerPage,
+      componentProps: {
+        photos,
+        title,
+        name
+      }
+    });
+    await modal.present();
   }
   async editPicked(pickedAmount: number, ind: number) {
     const item = this.data.models_need_pick[ind];
