@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPick } from '../models/pick.model';
 import { HelperService } from 'src/app/services/helper.service';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, IonContent, MenuController } from '@ionic/angular';
 import { PhotosViewerPage } from 'src/app/photos-viewer/photos-viewer.page';
+import { SellService } from 'src/openapi';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { DetailOrderPage } from 'src/app/orders/detail-order/detail-order.page';
 
 @Component({
   selector: 'app-detail-pick',
@@ -10,26 +13,33 @@ import { PhotosViewerPage } from 'src/app/photos-viewer/photos-viewer.page';
   styleUrls: ['./detail-pick.page.scss'],
 })
 export class DetailPickPage implements OnInit {
+  @ViewChild('content', { static: true }) content: IonContent;
   data: IPick;
+  change = false;
+  orderSns: string[];
   constructor(
     private helper: HelperService,
     private alertController: AlertController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private menu: MenuController,
+    private sellSV: SellService,
+    private fbSV: FirebaseService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
   async back() {
-      await this.modalController.dismiss();
+    await this.modalController.dismiss();
   }
 
   changeStatusPick(index) {
     const item = this.data.models_need_pick[index];
     const checked = !item.status;
-
     this.data.models_need_pick[index].pickedAmount = checked ? item.amount : 0;
-
+    if (this.change) {
+      this.saveStorage();
+    }
   }
   async openPhotos(photos = [], title, name) {
     photos = photos.map(x => `https://cf.shopee.vn/file/${x}_tn`);
@@ -61,6 +71,7 @@ export class DetailPickPage implements OnInit {
           handler: (data) => {
             if (Number(data.picked) >= 0 && Number(data.picked) < item.amount) {
               this.data.models_need_pick[ind].pickedAmount = Number(data.picked);
+              this.saveStorage();
             }
           }
         }, {
@@ -79,5 +90,29 @@ export class DetailPickPage implements OnInit {
 
   filterData() {
     this.data.models_need_pick = this.helper.sortArrObj(this.data.models_need_pick, 'status', 'asc');
+    this.content.scrollToTop(500);
+  }
+
+  async saveStorage() {
+    await this.helper.setStorage('picked', {
+      gomdon_id: this.data.gomdon_id,
+      data: this.data.models_need_pick
+    });
+  }
+
+  refer(ordersn: string[]) {
+    this.orderSns = ordersn;
+    this.menu.open();
+  }
+
+  async selectOrder(ordersn: string) {
+    const data = await this.fbSV.getOneDoc('sells', ordersn);
+    const modal = await this.modalController.create({
+      component: DetailOrderPage,
+      componentProps: {
+        data
+      }
+    });
+    await modal.present();
   }
 }

@@ -12,7 +12,7 @@ import { DetailOrderPage } from './detail-order/detail-order.page';
 })
 export class OrdersPage implements OnInit, OnDestroy {
   @ViewChild('mySearchbar', { static: true }) searchbar: IonSearchbar;
-  data: Sell[];
+  data: (Sell)[];
   temp: Sell[];
   sub: Subscription;
   loading;
@@ -33,7 +33,7 @@ export class OrdersPage implements OnInit, OnDestroy {
       translucent: true
     });
     this.loading.present();
-    this.sub = this.fbSV.getOrders().subscribe(async res => {
+    this.sub = (await this.fbSV.getOrders()).subscribe(async res => {
       res = res.map(x => {
         x['picked'] = x.order_items.filter(y => y['picked'] > 0).length > 0 ? true : false;
         return x;
@@ -54,18 +54,21 @@ export class OrdersPage implements OnInit, OnDestroy {
 
   searchItem(e) {
     const text = e.target.value;
-    this.data = text === '' ? this.temp : [...this.temp.filter(x => x.shipping_traceno.toLowerCase().includes(e.target.value))];
+    this.data = text.trim() === '' ? this.temp : [...this.temp.filter(x => x.shipping_traceno.toLowerCase().includes(e.target.value))];
   }
 
   async selectItem(data) {
+    console.log(data);
     const modal = await this.modalController.create({
       component: DetailOrderPage,
       componentProps: {
-        data
+        data,
+        checkFrom: true
       }
     });
     modal.onDidDismiss().then(() => {
-
+      this.searchbar.value = '';
+      this.data = this.temp;
       this.searchbar.setFocus();
       // setTimeout(() => this.searchbar.setFocus(), 500);
     });

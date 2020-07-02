@@ -8,7 +8,6 @@ import { IPick } from '../picks/models/pick.model';
 import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Sell } from 'src/openapi';
 import { IChat } from '../chats/chat.model';
-import { HelperService } from './helper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +19,7 @@ export class FirebaseService {
   picks: AngularFirestoreCollection<IPick>;
   orders: AngularFirestoreCollection<Sell>;
   chatCol: AngularFirestoreCollection<IChat>;
+  email = '';
   constructor(
     private afu: AngularFireAuth,
     private afs: AngularFirestore,
@@ -29,10 +29,18 @@ export class FirebaseService {
       switchMap(user => {
         this.info = user;
         if (user !== null) {
-          if (this.once) {
-            router.navigate(['/tabs/profile']);
-            this.once = false;
-          }
+          user.getIdTokenResult().then(result => {
+            this.email = result.claims.email;
+            if (this.once) {
+              router.navigate([(!result.claims.role || result.claims.role === 'nguoimoi') ? '/profile' : '/tabs/profile'], {
+                queryParams: {
+                  role: result.claims.role,
+                  reload: 'yes'
+                }
+              });
+              this.once = false;
+            }
+          });
           return of(user);
         } else {
           router.navigate(['/profile']);
@@ -41,9 +49,24 @@ export class FirebaseService {
       }));
   }
 
-  async getPicks() {
-    const uid = await this.getUID();
-    this.picks = this.afs.collection('pick_models', ref => ref.where('uid', '==', uid));
+  async getToken() {
+    return await firebase.auth().currentUser.getIdToken();
+  }
+
+  async resetPass() {
+    await this.afu.auth.sendPasswordResetEmail(this.email).catch(err => {
+      alert(err);
+    });
+    alert(`Kiểm tra email: ${this.email} để thay đổi mật khẩu mới`);
+  }
+
+  async getOneDoc(col: string, id: string) {
+    return (await firebase.firestore().collection(col).doc(id).get()).data();
+  }
+
+  getPicks() {
+    const uid = this.getUser().uid;
+    this.picks = this.afs.collection('pick_models', ref => ref.where('uid', '==', uid).orderBy('gomdon_ctime', 'desc').limit(10));
     return this.picks.valueChanges();
   }
 
@@ -54,13 +77,26 @@ export class FirebaseService {
     });
   }
 
-  getOrders() {
-    this.orders = this.afs.collection('sells', ref => ref.where('gomdon_status', '==', 1));
-    return this.orders.valueChanges();
+  async getOrders() {
+    const uid = this.getUser().uid;
+    const db = firebase.firestore();
+    const u1 = (await db.collection('users').doc(uid).get()).data();
+    if (u1.quanlyBy) {
+      const u2 = (await db.collection('users').doc(u1.quanlyBy).get()).data();
+      const quanlyCTV = u2.quanlyCTVs[0];
+      if (quanlyCTV) {
+        console.log(quanlyCTV);
+        // tslint:disable-next-line: max-line-length
+        this.orders = this.afs.collection('sells', ref => ref.where('gomdon_status', '==', 1).where('gomdon_by.quanlyCTVban', '==', quanlyCTV )
+          .where('set_picked', '==', true)
+        );
+        return this.orders.valueChanges();
+      }
+    }
   }
 
   async updateSell(id: string, data: any) {
-    await this.afs.collection('sells').doc(id).update(data);
+    await this.afs.collection('sells').doc(id).update(data).catch(err => console.log(err));
   }
 
   getMiliSec(date?: Date) {
@@ -95,12 +131,17 @@ export class FirebaseService {
     });
   }
 
-  async getUID() {
-    let uid = '';
-    await this.user.subscribe(res => {
-      uid = res.uid;
-    });
-    return uid;
+  getUser() {
+    return firebase.auth().currentUser;
   }
-
+  async deleteAllPicks() {
+    // Get a new write batch
+    const batch = firebase.firestore().batch();
+    const colRef = firebase.firestore().collection('pick_models');
+    const docs = await colRef.get();
+    docs.forEach(doc => {
+      batch.delete(colRef.doc(doc.id));
+    });
+    await batch.commit();
+  }
 }

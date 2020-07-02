@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { GomdonLogs } from 'src/openapi';
 import { FirebaseService } from './firebase.service';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -73,9 +74,58 @@ export class HelperService {
     }
   ];
 
+  roleSchema = [
+    {
+      id: 0,
+      code: 'nguoimoi',
+      name: 'Người mới'
+    },
+    {
+      id: 1,
+      code: 'admin',
+      name: 'ADMIN'
+    },
+    {
+      id: 4,
+      code: 'quanlykho',
+      name: 'Quản lý kho'
+    },
+    {
+      id: 7,
+      code: 'nhathang',
+      name: 'Người Nhặt hàng'
+    },
+    {
+      id: 9,
+      code: 'donghang',
+      name: 'Người đóng gói'
+    },
+    {
+      id: 12,
+      code: 'CTVban',
+      name: 'Cộng tác viên bán'
+    },
+    {
+      id: 14,
+      code: 'quanlyCTVban',
+      name: 'Quản lý CTV bán'
+    },
+    {
+      id: 16,
+      code: 'CTVmua',
+      name: 'Cộng tác viên mua'
+    },
+    {
+      id: 18,
+      code: 'quanlyCTVmua',
+      name: 'Quản lý CTV mua'
+    }
+  ];
+
   constructor(
     public loadingController: LoadingController,
-    private fbSV: FirebaseService
+    private fbSV: FirebaseService,
+    private storage: Storage
   ) {
   }
 
@@ -115,18 +165,23 @@ export class HelperService {
     return unique;
   }
 
-  saveLogOrder(logs: GomdonLogs[], content: string, type: number): Promise<GomdonLogs[]> {
-    return new Promise(r => {
-      this.fbSV.user.subscribe(user => {
-        logs.push({
-          content,
-          id: (new Date()).getTime(),
-          name: user.displayName,
-          type,
-          uid: user.uid
-        });
-        r(logs);
-      });
+  saveLogOrder(logs: GomdonLogs[], content: string, type: number): GomdonLogs[] {
+    const user = this.fbSV.getUser();
+    logs.push({
+      content,
+      id: (new Date()).getTime(),
+      name: user.displayName,
+      type,
+      uid: user.uid
     });
+    return logs;
+  }
+
+  async setStorage(key: string, data: any) {
+    await this.storage.set(key, data);
+  }
+
+  async getStorage(key: string) {
+    return await this.storage.get(key);
   }
 }

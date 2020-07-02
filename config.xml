@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="huynhnhon.ionic.gomdon" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="huynhnhon.ionic.gomdon" version="0.0.17" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Gom Đơn</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="huynhnhon.dev@gmail.com" href="http://ionicframework.com/">Huynh Nhọn</author>
-    <content original-src="index.html" src="http://localhost:8101" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -100,4 +100,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <allow-navigation href="http://localhost:8101" sessionid="1568ce17" />
+    <allow-navigation href="http://localhost:8100" sessionid="69b77a59" />
 </widget>

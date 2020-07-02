@@ -6,9 +6,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
@@ -39,7 +41,7 @@ export function apiConfigFactory(): Configuration {
   return new Configuration(params);
 }
 
-@NgModule({ 
+@NgModule({
   declarations: [AppComponent, DetailPickPage, DetailOrderPage, PhotosViewerPage, StatusPipe],
   entryComponents: [
     DetailPickPage,
@@ -57,11 +59,13 @@ export function apiConfigFactory(): Configuration {
     ReactiveFormsModule,
     HttpClientModule,
     ApiModule.forRoot(apiConfigFactory),
+    IonicStorageModule.forRoot()
   ],
   providers: [
     Keyboard,
     Clipboard,
     Network,
+    CallNumber,
     StatusBar,
     SplashScreen,
     GooglePlus,
@@ -71,4 +75,4 @@ export function apiConfigFactory(): Configuration {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

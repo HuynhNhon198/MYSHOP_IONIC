@@ -14,7 +14,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content data-tap-disabled="true">
+<ion-menu side="end" contentId="main">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Thuộc Đơn:</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item *ngFor="let item of orderSns" (click)="selectOrder(item)">{{item}}</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content id="main" #content data-tap-disabled="true">
   <ion-grid>
     <ion-row class="rowItem" *ngFor="let i of data.models_need_pick; index as ind">
       <ion-col size="5">
@@ -27,7 +40,7 @@
           <a style="text-decoration: unset"
             [ngStyle]="{'font-size': i.product_name.length>23? '14px' : '16px'}">{{i.product_name}}</a>
         </ion-row>
-        <ion-row class="select" [ngStyle]="{'background-color': i.status ? 'rgba(116, 247, 116, 0.1)' : ''}">
+        <ion-row class="select" (click)="refer(i.order_sn)" [ngStyle]="{'background-color': i.status ? 'rgba(116, 247, 116, 0.1)' : ''}">
           <ion-col style="border-right: #ddd solid 1px; font-size: 17px">
             <div><b>{{i.name}}</b></div>
           </ion-col>
@@ -35,7 +48,7 @@
         <ion-row>
           <ion-col>
             <div class="checkbox">
-              <ion-checkbox id="{{i.item_id}}" [(ngModel)]="i.status" (click)="changeStatusPick( ind)">
+              <ion-checkbox (click)="change = true" id="{{i.item_id}}" [(ngModel)]="i.status" (ionChange)="changeStatusPick( ind)">
               </ion-checkbox>
               <ion-label>
                 <div (click)="editPicked(i.pickedAmount, ind)" class="amount"><mark

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service';
 import { IPick } from './models/pick.model';
 import { Subscription } from 'rxjs';
-import { ModalController, LoadingController } from '@ionic/angular';
+import { ModalController, LoadingController, AlertController } from '@ionic/angular';
 import { DetailPickPage } from './detail-pick/detail-pick.page';
 import { HelperService } from '../services/helper.service';
 
@@ -19,7 +19,8 @@ export class PicksPage implements OnInit, OnDestroy {
     private fbSV: FirebaseService,
     public modalController: ModalController,
     private helper: HelperService,
-    private loadingCTRL: LoadingController
+    private loadingCTRL: LoadingController,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -28,8 +29,7 @@ export class PicksPage implements OnInit, OnDestroy {
       translucent: true
     });
     this.loading.present();
-    const ob$ = await this.fbSV.getPicks();
-    this.sub = ob$.subscribe(async res => {
+    this.sub = this.fbSV.getPicks().subscribe(async res => {
       this.data = this.helper.sortArrObj(res, 'gomdon_ctime', 'desc');
       this.loading.dismiss();
     });
@@ -41,9 +41,16 @@ export class PicksPage implements OnInit, OnDestroy {
     this.presentModal(item);
   }
   async presentModal(data) {
+    let picked: any = await this.helper.getStorage('picked');
+    if (picked && picked.gomdon_id === data.gomdon_id) {
+      picked = picked.data;
+    } else {
+      picked = [];
+    }
     data.models_need_pick = data.models_need_pick.map(x => {
-      x.status = x.status || false;
-      x.pickedAmount = x.pickedAmount || 0;
+      const saved = picked.find( y => y.item_id === x.item_id);
+      x.status = x.status || (saved ? saved.status : false);
+      x.pickedAmount = x.pickedAmount || (saved ? saved.pickedAmount : 0);
       return x;
     });
     const modal = await this.modalController.create({
@@ -53,5 +60,24 @@ export class PicksPage implements OnInit, OnDestroy {
       }
     });
     return await modal.present();
+  }
+
+  async delete() {
+    const alert = await this.alertController.create({
+      header: 'XÓA',
+      message: 'Bạn có chắn chắn sẽ xóa toàn bộ các lần nhặt hàng',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        }, {
+          text: 'OK',
+          handler: async () => {
+            await this.fbSV.deleteAllPicks();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

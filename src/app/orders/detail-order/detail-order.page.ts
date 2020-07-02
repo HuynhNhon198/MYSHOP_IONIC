@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Sell, OrderItem, GomdonLogs } from 'src/openapi';
 import { HelperService } from 'src/app/services/helper.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { LoadingController, ModalController, AlertController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, AlertController, ToastController, ActionSheetController } from '@ionic/angular';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { PhotosViewerPage } from 'src/app/photos-viewer/photos-viewer.page';
-
+import { CallNumber } from '@ionic-native/call-number/ngx';
 interface IItem extends OrderItem {
   gomdon_status?: boolean;
   picked?: number;
@@ -16,8 +16,9 @@ interface IItem extends OrderItem {
   templateUrl: './detail-order.page.html',
   styleUrls: ['./detail-order.page.scss'],
 })
-export class DetailOrderPage implements OnInit {
+export class DetailOrderPage implements OnInit, OnDestroy {
   data: Sell;
+  checkFrom: boolean;
   items: IItem[] = [];
   checkAll = false;
   loading;
@@ -32,13 +33,20 @@ export class DetailOrderPage implements OnInit {
     private modalController: ModalController,
     private alertController: AlertController,
     private toastController: ToastController,
-    private clipboard: Clipboard
-  ) { }
+    private clipboard: Clipboard,
+    public actionSheetController: ActionSheetController,
+    private callNumber: CallNumber
+  ) {
+  }
 
   async ngOnInit() {
 
     this.items = this.data.order_items;
     this.own_logs_note = this.data.gomdon_logs.filter(x => x.type === 1);
+  }
+
+  async ngOnDestroy() {
+    // await this.loading.dismiss();
   }
 
   async bulkChange(checked: boolean) {
@@ -95,6 +103,7 @@ export class DetailOrderPage implements OnInit {
     await this.loading.present();
   }
   async back() {
+    console.log(this.change);
     if (this.change) {
       await this.showLoading();
       await this.fbSV.updateSell(this.data.order_sn, {
@@ -120,7 +129,8 @@ export class DetailOrderPage implements OnInit {
     }
     if (newStatus !== 0) {
       await this.showLoading();
-      const newLogs: GomdonLogs[] = await this.helper.saveLogOrder(this.data.gomdon_logs, newStatus.toString(), 0);
+      const newLogs: GomdonLogs[] = this.helper.saveLogOrder(this.data.gomdon_logs, newStatus.toString(), 0);
+      console.log(newLogs);
       await this.fbSV.updateSell(this.data.order_sn, {
         gomdon_status: newStatus,
         gomdon_logs: newLogs
@@ -149,7 +159,7 @@ export class DetailOrderPage implements OnInit {
           role: 'ok',
           handler: async (data) => {
             console.log(data.note);
-            const newLogs: GomdonLogs[] = await this.helper.saveLogOrder(this.data.gomdon_logs, data.note, 1);
+            const newLogs: GomdonLogs[] = this.helper.saveLogOrder(this.data.gomdon_logs, data.note, 1);
             await this.showLoading();
             await this.fbSV.updateSell(this.data.order_sn, {
               gomdon_note: data.note,
@@ -177,20 +187,22 @@ export class DetailOrderPage implements OnInit {
     await this.clipboard.copy(text).then(async () => {
       const toast = await this.toastController.create({
         message: `Đã Copy: ${text}`,
-        duration: 2000, 
+        duration: 2000,
       });
       toast.present();
     });
   }
   async changeStatusItem(index: number) {
-    this.change = true;
     const item = this.items[index];
     this.items[index].picked = item.gomdon_status ? item.amount : 0;
     const checkedLength = this.items.filter(x => x.gomdon_status).length;
     if (checkedLength === this.items.length) {
       this.checkAll = true;
       if (this.checkCheckAll) {
-        await this.updateItemFromCheckBox();
+        if (this.change) {
+          console.log('upadate,,,');
+          await this.updateItemFromCheckBox();
+        }
       }
     } else {
       this.checkAll = false;
@@ -198,7 +210,8 @@ export class DetailOrderPage implements OnInit {
   }
 
   async updateItemFromCheckBox() {
-    const newLogs: GomdonLogs[] = await this.helper.saveLogOrder(this.data.gomdon_logs, '4', 0);
+    const newLogs: GomdonLogs[] = this.helper.saveLogOrder(this.data.gomdon_logs, '4', 0);
+    console.log(newLogs);
     await this.showLoading();
     await this.fbSV.updateSell(this.data.order_sn, {
       order_items: this.items,
@@ -222,5 +235,25 @@ export class DetailOrderPage implements OnInit {
       }
     });
     await modal.present();
+  }
+
+  async presentActionSheet(phone) {
+    const actionSheet = await this.actionSheetController.create({
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Sao chép',
+        icon: 'copy',
+        handler: () => {
+          this.copyText(phone);
+        }
+      }, {
+        text: 'Gọi ngay',
+        icon: 'call',
+        handler: () => {
+          this.callNumber.callNumber(phone.toString(), true);
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 }
