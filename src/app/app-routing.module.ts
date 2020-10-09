@@ -25,7 +25,11 @@ const routes: Routes = [
   {
     path: 'chats',
     loadChildren: () => import('./chats/chats.module').then( m => m.ChatsPageModule)
+  },  {
+    path: 'scanner',
+    loadChildren: () => import('./scanner/scanner.module').then( m => m.ScannerPageModule)
   }
+
 ];
 @NgModule({
   imports: [

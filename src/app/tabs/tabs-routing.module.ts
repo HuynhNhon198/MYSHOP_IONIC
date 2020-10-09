@@ -1,80 +1,94 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { TabsPage } from "./tabs.page";
 import {
   hasCustomClaim,
   redirectUnauthorizedTo,
   redirectLoggedInTo,
-  AngularFireAuthGuard
-} from '@angular/fire/auth-guard';
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['profile']);
+  AngularFireAuthGuard,
+} from "@angular/fire/auth-guard";
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["profile"]);
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: "tabs",
     component: TabsPage,
     children: [
       {
-        path: 'profile',
+        path: "profile",
         children: [
           {
-            path: '',
+            path: "",
             loadChildren: () =>
-              import('../profile/profile.module').then(m => m.ProfilePageModule)
-          }
+              import("../profile/profile.module").then(
+                (m) => m.ProfilePageModule
+              ),
+          },
         ],
         canActivate: [AngularFireAuthGuard],
-        data: { authGuardPipe: redirectUnauthorizedToLogin }
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
-        path: 'picks',
+        path: "picks",
         children: [
           {
-            path: '',
+            path: "",
             loadChildren: () =>
-              import('../picks/picks.module').then(m => m.PicksPageModule)
-          }
+              import("../picks/picks.module").then((m) => m.PicksPageModule),
+          },
         ],
         canActivate: [AngularFireAuthGuard],
-        data: { authGuardPipe: redirectUnauthorizedToLogin }
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
-        path: 'orders',
+        path: "orders",
         children: [
           {
-            path: '',
+            path: "",
             loadChildren: () =>
-              import('../orders/orders.module').then(m => m.OrdersPageModule)
-          }
+              import("../orders/orders.module").then((m) => m.OrdersPageModule),
+          },
         ],
         canActivate: [AngularFireAuthGuard],
-        data: { authGuardPipe: redirectUnauthorizedToLogin }
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
-        path: 'chats',
+        path: "chats",
         children: [
           {
-            path: '',
+            path: "",
             loadChildren: () =>
-              import('../chats/chats.module').then(m => m.ChatsPageModule)
-          }
-        ]
+              import("../chats/chats.module").then((m) => m.ChatsPageModule),
+          },
+        ],
       },
       {
-        path: '',
-        redirectTo: '/tabs/profile',
-        pathMatch: 'full'
-      }
-    ]
+        path: "scanner",
+        children: [
+          {
+            path: "",
+            loadChildren: () =>
+              import("../scanner/scanner.module").then(
+                (m) => m.ScannerPageModule
+              ),
+          },
+        ],
+      },
+      {
+        path: "",
+        redirectTo: "/tabs/profile",
+        pathMatch: "full",
+      },
+    ],
   },
   {
-    path: '',
-    redirectTo: '/tabs/profile',
-    pathMatch: 'full'
-  }
+    path: "",
+    redirectTo: "/tabs/profile",
+    pathMatch: "full",
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TabsPageRoutingModule { }
+export class TabsPageRoutingModule {}

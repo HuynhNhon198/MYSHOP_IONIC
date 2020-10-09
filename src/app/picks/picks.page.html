@@ -3,7 +3,11 @@
     <ion-title>NHẶT HÀNG</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="delete()">
-        <ion-icon slot="icon-only" name="close-circle-outline" style="color: #910707;"></ion-icon>
+        <ion-icon
+          slot="icon-only"
+          name="close-circle-outline"
+          style="color: #910707;"
+        ></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -14,7 +18,10 @@
     <ion-list style="margin-top: 50px;">
       <ion-item *ngFor="let item of data" (click)="selected(item)">
         <ion-label>
-          <span class="date">{{item.gomdon_ctime*1000 | date: 'HH:mm dd/MM/y'}}</span> <span class="right"><b>{{item.models_need_pick.length}} PL</b></span> 
+          <span class="date"
+            >{{item.gomdon_ctime*1000 | date: 'HH:mm - dd/MM/y'}}</span
+          >
+          <span class="right"><b>{{item.model_size}} PL</b></span>
         </ion-label>
       </ion-item>
     </ion-list>

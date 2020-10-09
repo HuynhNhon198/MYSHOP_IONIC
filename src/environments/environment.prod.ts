@@ -1,13 +1,13 @@
 export const environment = {
   production: true,
   config: {
-    apiKey: 'AIzaSyCyJuvREmfO8uzrAncN67vdh5DWZRX04EI',
-    authDomain: 'gomdon-74d1a.firebaseapp.com',
-    databaseURL: 'https://gomdon-74d1a.firebaseio.com',
-    projectId: 'gomdon-74d1a',
-    storageBucket: 'gomdon-74d1a.appspot.com',
-    messagingSenderId: '190650726823',
-    appId: '1:190650726823:web:bcf775286ba97206d25e82',
-    measurementId: 'G-BRB0GB8CP6'
-  }
+    apiKey: "AIzaSyA4zhYs9iRg4q-IkoLeGXSUedbl1WHdP8s",
+    authDomain: "ship-xanh.firebaseapp.com",
+    databaseURL: "https://ship-xanh.firebaseio.com",
+    projectId: "ship-xanh",
+    storageBucket: "ship-xanh.appspot.com",
+    messagingSenderId: "527068162213",
+    appId: "1:527068162213:web:2dd8f4f5ad92941b62854c",
+    measurementId: "G-M7LBDJTSLR",
+  },
 };

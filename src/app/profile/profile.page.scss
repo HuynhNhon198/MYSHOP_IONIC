@@ -1,7 +1,17 @@
 .center {
-    text-align: center;
-    margin-top: 10px;
+  text-align: center;
+  margin-top: 10px;
 }
 .form {
-    margin-top: 50px;
+  margin-top: 50px;
+  img {
+    width: 30%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+  }
+  p,
+  h2 {
+    text-align: center;
+  }
 }

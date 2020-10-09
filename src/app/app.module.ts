@@ -1,53 +1,54 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { RouteReuseStrategy } from "@angular/router";
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Network } from '@ionic-native/network/ngx';
-import { CallNumber } from '@ionic-native/call-number/ngx';
+import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
+import { SplashScreen } from "@ionic-native/splash-screen/ngx";
+import { StatusBar } from "@ionic-native/status-bar/ngx";
+import { Network } from "@ionic-native/network/ngx";
+import { CallNumber } from "@ionic-native/call-number/ngx";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { IonicStorageModule } from '@ionic/storage';
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { IonicStorageModule } from "@ionic/storage";
 
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import { environment } from '../environments/environment.prod';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
-import { DetailPickPage } from './picks/detail-pick/detail-pick.page';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { ApiModule, Configuration, ConfigurationParameters } from 'src/openapi';
-import { DetailOrderPage } from './orders/detail-order/detail-order.page';
-import { StatusPipe } from './pipes/app.status';
-import { PhotosViewerPage } from './photos-viewer/photos-viewer.page';
+import { PhotoViewer } from "@ionic-native/photo-viewer/ngx";
+import { Keyboard } from "@ionic-native/keyboard/ngx";
+import { Clipboard } from "@ionic-native/clipboard/ngx";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { GooglePlus } from "@ionic-native/google-plus/ngx";
+import { environment } from "../environments/environment.prod";
+import { AngularFireAuthGuard } from "@angular/fire/auth-guard";
+import { DetailPickPage } from "./picks/detail-pick/detail-pick.page";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { ApiModule, Configuration, ConfigurationParameters } from "src/openapi";
+import { DetailOrderPage } from "./orders/detail-order/detail-order.page";
+import { StatusPipe } from "./pipes/app.status";
+import { PhotosViewerPage } from "./photos-viewer/photos-viewer.page";
 
 export function apiConfigFactory(): Configuration {
   // tslint:disable-next-line: prefer-const
   // AuthService.getToken().then(token => {
-  //   console.log(token);
   // });
   const params: ConfigurationParameters = {
     // set configuration parameters here.
-    basePath: 'https://us-central1-gomdon-74d1a.cloudfunctions.net/api',
+    basePath: "https://us-central1-gomdon-74d1a.cloudfunctions.net/api",
   };
   return new Configuration(params);
 }
 
 @NgModule({
-  declarations: [AppComponent, DetailPickPage, DetailOrderPage, PhotosViewerPage, StatusPipe],
-  entryComponents: [
+  declarations: [
+    AppComponent,
     DetailPickPage,
     DetailOrderPage,
-    PhotosViewerPage
+    PhotosViewerPage,
+    StatusPipe,
   ],
+  entryComponents: [DetailPickPage, DetailOrderPage, PhotosViewerPage],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -59,7 +60,7 @@ export function apiConfigFactory(): Configuration {
     ReactiveFormsModule,
     HttpClientModule,
     ApiModule.forRoot(apiConfigFactory),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     Keyboard,
@@ -71,8 +72,8 @@ export function apiConfigFactory(): Configuration {
     GooglePlus,
     AngularFireAuthGuard,
     PhotoViewer,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

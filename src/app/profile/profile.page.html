@@ -1,59 +1,54 @@
-
 <ion-content padding>
   <div *ngIf="user; else form">
     <ion-grid style="height: 100%">
-      <ion-row class="ion-align-items-center ion-justify-content-center" style="height: 100%; margin-top: 50px;">
+      <ion-row
+        class="ion-align-items-center ion-justify-content-center"
+        style="height: 100%; margin-top: 50px"
+      >
         <ion-item lines="none">
-          <img src="{{user.picture}}" style="border-radius: 50%;" width="50px" alt="">
+          <img
+            src="{{user.photoURL}}"
+            style="border-radius: 50%"
+            width="50px"
+            alt=""
+          />
         </ion-item>
-        <br>
+        <br />
         <ion-item>
-          <ion-label>
-            Tên: {{user.name}}
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Email: {{user.email}}
-          </ion-label>
+          <ion-label> Tên: {{user.displayName}} </ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>
-            Quyền: {{role}}
-          </ion-label>
+          <ion-label> Email: {{user.email}} </ion-label>
         </ion-item>
         <ion-item lines="none">
           <ion-button color="primary" (click)="fbSV.resetPass()">
             ĐẶT MẬT KHẨU MỚI
           </ion-button>
-          <ion-button color="danger" (click)="logOut()">
-            ĐĂNG XUẤT
-          </ion-button>
+          <ion-button color="danger" (click)="logOut()"> ĐĂNG XUẤT </ion-button>
         </ion-item>
-        
       </ion-row>
     </ion-grid>
   </div>
   <ng-template #form>
     <div class="form">
+      <img src="assets/logo.png" alt="" srcset="" />
+      <h2>ShipXanh.com</h2>
+      <p>Ứng dụng nhặt hàng và đóng gói, kiểm tra đơn hàng</p>
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" [(ngModel)]='email'></ion-input>
+        <ion-input type="email" [(ngModel)]="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Mật Khẩu</ion-label>
-        <ion-input type='password' [(ngModel)]='password'></ion-input>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
     </div>
     <div class="center">
-      <ion-button (click)="signIn()">
-        ĐĂNG NHẬP
-      </ion-button>
+      <ion-button (click)="signIn()"> ĐĂNG NHẬP </ion-button>
       <ion-button color="danger" (click)="googleSignIn()">
-        Google 
+        Google
         <!-- <ion-icon name="logo-googleplus"></ion-icon> -->
       </ion-button>
     </div>
-    
   </ng-template>
 </ion-content>
