@@ -117,7 +117,11 @@ export class FirebaseService {
     const info: any = (
       await this.afs.firestore.collection("users").doc(uid).get()
     ).data();
+    console.log(uid);
+
     const stock = info.isMemberOf ? info.isMemberOf.uid : uid;
+    console.log(stock);
+
     this.orders = this.afs.collection("sells", (ref) =>
       ref
         .where("gomdon_status", "==", 1)

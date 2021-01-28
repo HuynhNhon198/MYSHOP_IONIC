@@ -1,6 +1,11 @@
 <ion-header no-border>
   <ion-toolbar>
-    <ion-searchbar #mySearchbar placeholder="TÌM THEO MÃ VẬN ĐƠN" (keyup)="searchItem($event)"></ion-searchbar>
+    <ion-searchbar
+      #mySearchbar
+      placeholder="TÌM THEO MÃ VẬN ĐƠN"
+      [(ngModel)]="search"
+      (ngModelChange)="searchItem($event)"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +17,13 @@
         </button>
       </ion-fab> -->
     <ion-list *ngIf="data">
-      <ion-item lines='none' *ngFor="let item of data" (click)="selectItem(item)" id="{{item.shipping_traceno}}" [ngClass]="{'check-full': item['picked'] }">
+      <ion-item
+        lines="none"
+        *ngFor="let item of data"
+        (click)="selectItem(item)"
+        id="{{item.shipping_traceno}}"
+        [ngClass]="{'check-full': item['picked'] }"
+      >
         <!-- {{item.check}} -->
         <ion-label>
           <h2><b>{{item.shipping_traceno}}</b></h2>

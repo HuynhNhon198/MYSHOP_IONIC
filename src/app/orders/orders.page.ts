@@ -20,6 +20,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   temp: Sell[];
   sub: Subscription;
   loading;
+  search: string = "";
   focus = true;
   constructor(
     private loadingCTRL: LoadingController,
@@ -59,15 +60,15 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
   searchItem(e) {
-    const text = e.target.value;
-    this.data =
-      text.trim() === ""
-        ? this.temp
-        : [
-            ...this.temp.filter((x) =>
-              x.shipping_traceno.toLowerCase().includes(e.target.value)
-            ),
-          ];
+    if (this.search && this.search.length) {
+      this.data = [
+        ...this.temp.filter((x) =>
+          x.shipping_traceno.toLowerCase().includes(this.search.toLowerCase())
+        ),
+      ];
+    } else {
+      this.data = this.temp;
+    }
   }
 
   async selectItem(data) {

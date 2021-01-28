@@ -12,8 +12,13 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col >
-        <img *ngFor="let url of photos" src="{{url}}" width="50%" (click)="show(url)" >
+      <ion-col>
+        <img
+          *ngFor="let url of photos"
+          src="{{url}}"
+          width="100%"
+          (click)="show(url)"
+        />
       </ion-col>
     </ion-row>
   </ion-grid>

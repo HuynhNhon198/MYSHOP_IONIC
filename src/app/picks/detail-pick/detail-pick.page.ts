@@ -120,7 +120,6 @@ export class DetailPickPage implements OnInit {
     } else {
       this.historyList.push(obj);
     }
-    console.log(this.historyList);
     await this.helper.setStorage("picked_history", this.historyList);
   }
 

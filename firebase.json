@@ -2,11 +2,7 @@
   "hosting": {
     "site": "nhathang-shipxanh",
     "public": "www",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
@@ -15,103 +11,3 @@
     ]
   }
 }
-
-
-
-
-
-
-
-
-  {
-    "id": 0,
-    "name": "string",
-    "sku": "string",
-    "price": 10000,
-    "weight": 0,
-    "stock_availability": true,
-    "description": "string",
-    "cat_4_id": 2922,
-    "tags": "string",
-    "relateds": [
-      {
-        "id": 0,
-        "name": "string",
-        "sku": "string",
-        "category_name": "string",
-        "price": 10000,
-        "status": 0,
-        "image": "string"
-      }
-    ],
-    "seo_keyword": "string",
-    "seo_title": "string",
-    "seo_description": "string",
-    "product_image": "string",
-    "brand_id": 0,
-    "video_links": "string",
-    "height": 0,
-    "length": 0,
-    "width": 0,
-    "unit_id": 0,
-    "stock_quantity": 10,
-    "avatar": {
-      "picture_url": "https://cf.shopee.vn/file/c932dfb83a8b2d636cbe629b20b2b00d"
-    },
-    "pictures": [
-      {
-        "picture_url": "string"
-      }
-    ],
-    "attributes": [
-      {
-        "attribute_id": 0,
-        "attribute_name": "string",
-        "attribute_code": "string",
-        "attribute_is_custom": true,
-        "attribute_is_checkout": true,
-        "attribute_values": [
-          {
-            "id": 0,
-            "value": "string",
-            "attribute_img": "string",
-            "is_selected": true,
-            "is_custom": true
-          }
-        ]
-      }
-    ],
-    "promotion_from_date": "2021-06-18T02:51:38.858Z",
-    "promotion_to_date": "2021-06-18T02:51:38.858Z",
-    "is_promotion": true,
-    "extended_shipping_package": {
-      "is_using_instant": true,
-      "is_using_in_day": true,
-      "is_self_shipping": false
-    },
-    "variants": [
-      {
-        "variant_attributes": [
-          {
-            "attribute_id": 0,
-            "attribute_code": "string",
-            "option_id": 0
-          }
-        ],
-        "variant_sku": "string",
-        "variant_price": 10000,
-        "variant_promotion_start_date": "2021-06-18T02:51:38.858Z",
-        "variant_promotion_end_date": "2021-06-18T02:51:38.858Z",
-        "variant_special_price": 10000,
-        "variant_quantity": 0
-      }
-    ],
-    "is_config_variant": true,
-    "special_price": 8000,
-    "voucher": {
-      "product_type": 1,
-      "start_date": "2021-06-18T02:51:38.858Z",
-      "end_date": "2021-06-18T02:51:38.858Z",
-      "is_check_date": true
-    }
-  }
