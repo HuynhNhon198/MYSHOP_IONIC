@@ -34,6 +34,7 @@ export class DetailPickPage implements OnInit {
 
   async ngOnInit() {
     this.historyList = (await this.helper.getStorage("picked_history")) || [];
+    console.log(this.data);
   }
 
   async back() {

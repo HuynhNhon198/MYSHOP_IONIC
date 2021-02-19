@@ -22,25 +22,44 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item *ngFor="let item of orderSns" (click)="selectOrder(item)">{{item}}</ion-item>
+      <ion-item *ngFor="let item of orderSns" (click)="selectOrder(item)"
+        >{{item}}</ion-item
+      >
     </ion-list>
   </ion-content>
 </ion-menu>
 
 <ion-content id="main" #content data-tap-disabled="true">
   <ion-grid>
-    <ion-row class="rowItem" *ngFor="let i of data.models_need_pick; index as ind">
+    <ion-row
+      class="rowItem"
+      *ngFor="let i of data.models_need_pick; index as ind"
+    >
       <ion-col size="5">
         <div class="img">
-          <img src="https://cf.shopee.vn/file/{{i.image}}_tn" (click)="openPhotos(i.images, i.product_name, i.name)" style="width: 100%" alt="">
+          <img
+            src="https://cf.shopee.vn/file/{{i.image.includes('shopee') && i.image.length <=29 ? i.images[i.images.length -1] : i.image}}_tn"
+            (click)="openPhotos(i.images, i.product_name, i.name)"
+            style="width: 100%"
+            alt=""
+          />
         </div>
       </ion-col>
       <ion-col size="7">
         <ion-row>
-          <a style="text-decoration: unset"
-            [ngStyle]="{'font-size': i.product_name.length>23? '14px' : '16px'}">{{i.product_name}}</a>
+          <a
+            style="text-decoration: unset"
+            href="https://shopee.vn/!-i.{{i.shopid}}.{{i.item_id}}"
+            target="_blank"
+            [ngStyle]="{'font-size': i.product_name.length>23? '14px' : '16px'}"
+            >{{i.product_name}}</a
+          >
         </ion-row>
-        <ion-row class="select" (click)="refer(i.order_sn)" [ngStyle]="{'background-color': i.status ? 'rgba(116, 247, 116, 0.1)' : ''}">
+        <ion-row
+          class="select"
+          (click)="refer(i.order_sn)"
+          [ngStyle]="{'background-color': i.status ? 'rgba(116, 247, 116, 0.1)' : ''}"
+        >
           <ion-col style="border-right: #ddd solid 1px; font-size: 17px">
             <div><b>{{i.name}}</b></div>
           </ion-col>
@@ -48,18 +67,24 @@
         <ion-row>
           <ion-col>
             <div class="checkbox">
-              <ion-checkbox (click)="change = true" id="{{i.item_id}}" [(ngModel)]="i.status" (ionChange)="changeStatusPick( ind)">
+              <ion-checkbox
+                (click)="change = true"
+                id="{{i.item_id}}"
+                [(ngModel)]="i.status"
+                (ionChange)="changeStatusPick( ind)"
+              >
               </ion-checkbox>
               <ion-label>
-                <div (click)="editPicked(i.pickedAmount, ind)" class="amount"><mark
-                    *ngIf='i.pickedAmount > 0 && i.pickedAmount < i.amount'>{{i.pickedAmount}}/</mark>{{i.amount}}
+                <div (click)="editPicked(i.pickedAmount, ind)" class="amount">
+                  <mark *ngIf="i.pickedAmount > 0 && i.pickedAmount < i.amount"
+                    >{{i.pickedAmount}}/</mark
+                  >{{i.amount}}
                 </div>
               </ion-label>
             </div>
           </ion-col>
         </ion-row>
       </ion-col>
-
     </ion-row>
   </ion-grid>
 </ion-content>
