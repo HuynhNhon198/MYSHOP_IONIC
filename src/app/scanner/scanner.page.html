@@ -5,5 +5,33 @@
 </ion-header>
 
 <ion-content>
-  <zxing-scanner></zxing-scanner>
+  <zxing-scanner
+    #scanner
+    start="true"
+    [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
+    (scanSuccess)="getResult($event)"
+  ></zxing-scanner>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="typeScan">
+      <ion-item>
+        <ion-label>Chuyển đơn sang Đã Hoàn</ion-label>
+        <ion-radio slot="end" value="ScanReturnOrder"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Xem chi tiết đơn hàng</ion-label>
+        <ion-radio slot="end" value="ViewDetail"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list>
+    <ion-list-header lines="inset">
+      <ion-label>Kết quả quét</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let item of list">
+      <ion-label color="primary">
+        <h1>{{item.mvd}}</h1>
+        <span>{{item.status}}</span>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

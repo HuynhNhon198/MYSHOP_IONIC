@@ -1,40 +1,59 @@
 .rowItem {
-    margin: 8px 5px;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px 0px rgba(10, 14, 29, 0.04), 0px 8px 64px 0px rgba(10, 14, 29, 0.08)
+  margin: 8px 5px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px 0px rgba(10, 14, 29, 0.04),
+    0px 8px 64px 0px rgba(10, 14, 29, 0.08);
 }
 
 div.checkbox {
-    // bottom: 2px;
-    // position: absolute;
-    // right: 6px;
-    text-align: right;
+  // bottom: 2px;
+  // position: absolute;
+  // right: 6px;
+  text-align: right;
 }
 
 div.amount {
-    display: inline-block;
-    padding: 5px 10px;
-    font-size: 25px;
-    font-weight: 500;
-    margin-left: 54px;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 25px;
+  font-weight: 500;
+  margin-left: 54px;
 }
 
 .select {
-    // position: absolute;
-    // width: 95%;
-    // bottom: 6px;
-    // right: 5px;
-    border: #ddd solid 1px;
-    border-radius: 4px;
-    margin-top: 5px;
+  // position: absolute;
+  // width: 95%;
+  // bottom: 6px;
+  // right: 5px;
+  border: #ddd solid 1px;
+  border-radius: 4px;
+  margin-top: 5px;
 }
 
 div.img {
-    border: #eee solid 1px;
-    border-radius: 4px
+  border: #eee solid 1px;
+  border-radius: 4px;
 }
 
 a {
-    font-weight: 500;
-    // font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  // font-family: 'Quicksand', sans-serif;
+}
+
+td#amount {
+  text-align: center;
+  font-size: 15px;
+}
+
+td.order-td {
+  border: rgba(72, 138, 255, 0.4) solid 1px !important;
+  padding: 6px !important;
+}
+
+table {
+  margin: 3px;
+}
+
+td.order-td.model {
+  font-weight: 500;
 }

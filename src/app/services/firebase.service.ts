@@ -111,6 +111,15 @@ export class FirebaseService {
     });
   }
 
+  async getSellByMVD(mvd: string) {
+    const docs = await this.afs.firestore
+      .collection("sells")
+      .where("shipping_traceno", "==", mvd)
+      .get();
+
+    return docs.docs[0].data();
+  }
+
   async getOrders() {
     const user = this.getUser();
     const uid = user.uid;
@@ -122,11 +131,11 @@ export class FirebaseService {
     const stock = info.isMemberOf ? info.isMemberOf.uid : uid;
     console.log(stock);
 
-    this.orders = this.afs.collection("sells", (ref) =>
-      ref
-        .where("gomdon_status", "==", 1)
-        .where("stock.uid", "==", stock)
-        .where("set_picked", "==", true)
+    this.orders = this.afs.collection(
+      "sells",
+      (ref) =>
+        ref.where("gomdon_status", "==", 1).where("stock.uid", "==", stock)
+      // .where("set_picked", "==", true)
     );
     return this.orders.valueChanges();
   }

@@ -51,7 +51,9 @@ export function apiConfigFactory(): Configuration {
   entryComponents: [DetailPickPage, DetailOrderPage, PhotosViewerPage],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: "ios",
+    }),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.config),
     AngularFireAuthModule,

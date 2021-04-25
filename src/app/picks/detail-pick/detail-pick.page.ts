@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { IModelsPick } from "./../models/pick.model";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { IPick } from "../models/pick.model";
 import { HelperService } from "src/app/services/helper.service";
 import {
@@ -6,30 +7,41 @@ import {
   ModalController,
   IonContent,
   MenuController,
+  ActionSheetController,
+  LoadingController,
 } from "@ionic/angular";
 import { PhotosViewerPage } from "src/app/photos-viewer/photos-viewer.page";
 import { SellService } from "src/openapi";
 import { FirebaseService } from "src/app/services/firebase.service";
 import { DetailOrderPage } from "src/app/orders/detail-order/detail-order.page";
+import { NgxPrinterService } from "ngx-printer";
+import domtoimage from "dom-to-image";
 
 @Component({
   selector: "app-detail-pick",
   templateUrl: "./detail-pick.page.html",
   styleUrls: ["./detail-pick.page.scss"],
+  providers: [NgxPrinterService],
 })
 export class DetailPickPage implements OnInit {
   @ViewChild("content", { static: true }) content: IonContent;
+  @ViewChild("print", { static: true }) printEl: ElementRef;
   data: IPick;
   change = false;
   orderSns: string[];
   historyList = [];
+  showImage = false;
+  itemsPrint: IModelsPick[] = [];
   constructor(
     private helper: HelperService,
     private alertController: AlertController,
     private modalController: ModalController,
     private menu: MenuController,
     private sellSV: SellService,
-    private fbSV: FirebaseService
+    private printerService: NgxPrinterService,
+    private fbSV: FirebaseService,
+    private actionSheetController: ActionSheetController,
+    private loadingController: LoadingController
   ) {}
 
   async ngOnInit() {
@@ -138,5 +150,63 @@ export class DetailPickPage implements OnInit {
       },
     });
     await modal.present();
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      cssClass: "my-custom-class",
+      buttons: [
+        {
+          text: "In tất cả phân loại",
+          icon: "print",
+          handler: () => {
+            this.itemsPrint = this.data.models_need_pick;
+            this.printData();
+          },
+        },
+        {
+          text: "In các phân loại chưa nhặt (chưa tick)",
+          icon: "print",
+          handler: () => {
+            this.itemsPrint = this.data.models_need_pick.filter(
+              (x) => x.status
+            );
+            this.printData();
+          },
+        },
+      ],
+    });
+    await actionSheet.present();
+  }
+
+  async printData() {
+    // const node = document.getElementById("print-section");
+    // console.log(node);
+    // this.printerService.printHTMLElement(node);
+    this.showImage = true;
+    const loading = await this.loadingController.create({
+      message: "Loading...",
+      duration: 0,
+    });
+    await loading.present();
+    setTimeout(() => {
+      var node = document.getElementById("print-section");
+
+      domtoimage
+        .toPng(node)
+        .then((dataUrl) => {
+          // this.showImage = false;
+          loading.dismiss();
+          var popup = window.open();
+          popup.document.write("<img src=" + dataUrl + ">");
+          popup.document.close();
+          popup.focus();
+          popup.print();
+          // popup.close();
+        })
+        .catch(function (error) {
+          console.error("oops, something went wrong!", error);
+        });
+    }, 500);
   }
 }

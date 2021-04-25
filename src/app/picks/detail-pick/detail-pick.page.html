@@ -7,6 +7,9 @@
     </ion-buttons>
     <ion-title>{{data.models_need_pick.length}} Phân loại</ion-title>
     <ion-buttons slot="primary">
+      <ion-button (click)="presentActionSheet()">
+        <ion-icon slot="icon-only" name="print" color="primary"></ion-icon>
+      </ion-button>
       <ion-button (click)="filterData()">
         <ion-icon slot="icon-only" name="funnel" color="primary"></ion-icon>
       </ion-button>
@@ -45,7 +48,7 @@
           />
         </div>
       </ion-col>
-      <ion-col size="7">
+      <ion-col [size]="7">
         <ion-row>
           <a
             style="text-decoration: unset"
@@ -87,4 +90,30 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <div *ngIf="showImage" #print id="print-section">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td class="order-td">#</td>
+          <td class="order-td" style="width: 80px">Ảnh</td>
+          <td class="order-td">Tên Sản Phẩm</td>
+          <td class="order-td">Phân Loại</td>
+          <td class="order-td">SL</td>
+        </tr>
+        <tr *ngFor="let item of itemsPrint; index as ind">
+          <td class="order-td">{{ind+1}}</td>
+          <td class="order-td">
+            <img
+              src="https://cf.shopee.vn/file/{{item.image.includes('shopee') && item.image.length <=29 ? item.images[item.images.length -1] : item.image}}_tn"
+              style="width: 100%"
+              alt=""
+            />
+          </td>
+          <td class="order-td">{{item.product_name}}</td>
+          <td class="order-td">{{item.name}}</td>
+          <td class="order-td">{{item.amount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </ion-content>
