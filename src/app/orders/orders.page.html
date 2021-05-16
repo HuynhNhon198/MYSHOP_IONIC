@@ -7,10 +7,36 @@
       [(ngModel)]="search"
       (ngModelChange)="searchItem($event)"
     ></ion-searchbar>
+    <ion-buttons slot="primary">
+      <ion-button (click)="infoColor()">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
+<ion-menu side="end" contentId="main">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Chú Thích</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <div
+          class="box"
+          style="background-color: rgba(248, 174, 174, 0.36)"
+        ></div>
+        &nbsp;:&nbsp; Đơn chưa chia đi nhặt
+      </ion-item>
+      <ion-item>
+        <div class="box" style="background-color: #ffeea6"></div>
+        &nbsp;:&nbsp; Đơn đã chia đi nhặt
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-content id="main">
   <ion-content padding>
     <!-- <ion-fab bottom right>
         <button ion-fab color="primary">
@@ -23,12 +49,14 @@
         *ngFor="let item of data"
         (click)="selectItem(item)"
         id="{{item.shipping_traceno}}"
-        [ngClass]="{'check-full': item['picked'] }"
+        [ngClass]="{'picked': item['set_picked'] }"
       >
         <!-- {{item.check}} -->
         <ion-label>
           <h2><b>{{item.shipping_traceno}}</b></h2>
           <p>{{item.buyer_user.user_name}}</p>
+          <p>{{item.buyer_address_name}}</p>
+          <p>+{{item.buyer_address_phone}}</p>
         </ion-label>
       </ion-item>
     </ion-list>

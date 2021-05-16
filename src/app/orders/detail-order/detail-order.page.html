@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="back()">
-        <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -28,6 +28,7 @@
   >
     {{data.shipping_traceno}}
   </h4>
+  <h5 style="margin-top: 10px; text-align: center">{{data.gomdon_shop}}</h5>
   <ion-card>
     <ion-card-content>
       <span class="price">{{data.buyer_paid_amount|number}} ₫</span>

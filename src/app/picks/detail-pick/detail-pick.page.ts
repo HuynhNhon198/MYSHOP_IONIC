@@ -142,6 +142,8 @@ export class DetailPickPage implements OnInit {
   }
 
   async selectOrder(ordersn: string) {
+    console.log("test");
+
     const data = await this.fbSV.getOneDoc("sells", ordersn);
     const modal = await this.modalController.create({
       component: DetailOrderPage,

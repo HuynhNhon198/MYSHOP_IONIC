@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import {
   IonSearchbar,
   LoadingController,
+  MenuController,
   ModalController,
 } from "@ionic/angular";
 import { DetailOrderPage } from "./detail-order/detail-order.page";
@@ -25,7 +26,8 @@ export class OrdersPage implements OnInit, OnDestroy {
   constructor(
     private loadingCTRL: LoadingController,
     private fbSV: FirebaseService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private menu: MenuController
   ) {}
 
   // ionViewDidEnter() {
@@ -43,6 +45,8 @@ export class OrdersPage implements OnInit, OnDestroy {
           x.order_items.filter((y) => y["picked"] > 0).length > 0
             ? true
             : false;
+        console.log(x);
+
         return x;
       });
       this.data = res;
@@ -86,5 +90,13 @@ export class OrdersPage implements OnInit, OnDestroy {
       // setTimeout(() => this.searchbar.setFocus(), 500);
     });
     return await modal.present();
+  }
+
+  async infoColor() {
+    if (await this.menu.isOpen()) {
+      this.menu.close();
+    } else {
+      this.menu.open();
+    }
   }
 }
