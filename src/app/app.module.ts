@@ -35,7 +35,7 @@ export function apiConfigFactory(): Configuration {
   // });
   const params: ConfigurationParameters = {
     // set configuration parameters here.
-    basePath: "https://us-central1-gomdon-74d1a.cloudfunctions.net/api",
+    basePath: "https://us-central1-ship-xanh.cloudfunctions.net/api",
   };
   return new Configuration(params);
 }

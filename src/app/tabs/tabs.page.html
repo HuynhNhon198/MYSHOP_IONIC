@@ -1,20 +1,12 @@
 <ion-tabs (ionTabsDidChange)="tabChange($event)">
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="profile">
-      <ion-icon name="person-outline"></ion-icon>
-    </ion-tab-button>
+    <ion-tab-button tab="profile"> <h4>Nick</h4> </ion-tab-button>
 
-    <ion-tab-button tab="orders">
-      <ion-icon name="search-outline"></ion-icon>
-    </ion-tab-button>
+    <ion-tab-button tab="orders"> <h4>Đơn</h4> </ion-tab-button>
 
-    <ion-tab-button tab="picks">
-      <ion-icon name="checkmark-circle-outline"></ion-icon>
-    </ion-tab-button>
+    <ion-tab-button tab="picks"> <h4>Nhặt</h4> </ion-tab-button>
 
-    <ion-tab-button *ngIf="isDevMode" tab="scanner">
-      <ion-icon name="scan-outline"></ion-icon>
-    </ion-tab-button>
+    <ion-tab-button tab="scanner"> <h4>Quét</h4> </ion-tab-button>
 
     <!-- <ion-tab-button tab="chats">
       <ion-icon name="chatbubbles"></ion-icon>

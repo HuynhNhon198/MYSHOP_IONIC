@@ -1,10 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Quét Mã</ion-title>
+    <ion-title>Quét Mã {{current}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ng-container *ngIf="typeScan === 'ScanReturnOrder' && list[0]">
+    <h3 style="text-align: center">{{list[0].mvd}} - {{list[0].status}}</h3>
+  </ng-container>
   <zxing-scanner
     #scanner
     start="true"
@@ -12,7 +15,7 @@
     (scanSuccess)="getResult($event)"
   ></zxing-scanner>
   <ion-list>
-    <ion-radio-group [(ngModel)]="typeScan">
+    <ion-radio-group [(ngModel)]="typeScan" (ngModelChange)="current = null">
       <ion-item>
         <ion-label>Chuyển đơn sang Đã Hoàn</ion-label>
         <ion-radio slot="end" value="ScanReturnOrder"></ion-radio>
@@ -29,7 +32,7 @@
     </ion-list-header>
     <ion-item *ngFor="let item of list">
       <ion-label color="primary">
-        <h1>{{item.mvd}}</h1>
+        <h1 style="color: black"><b>{{item.mvd}}</b></h1>
         <span>{{item.status}}</span>
       </ion-label>
     </ion-item>
